@@ -4,7 +4,7 @@ class User
 {
     private $id;
     private $userName;
-    private $hashPass
+    private $hashPass;
     private $email;
 
     public function __construct()
@@ -56,10 +56,11 @@ class User
     {
         if ($this->id == -1)
         {
-            $sql = "INSERT INTO Users(username, email, hash_password) VALUES (:username, :email, :hashPass)";
+            $sql = "INSERT INTO user(username, email, hash_password) VALUES (:username, :email, :hashPass)";
+
 
             $prepare = $pdo->prepare($sql);
-            $prepare->execute([
+            $result = $prepare->execute([
                 'username' => $this->userName,
                 'email' => $this->email,
                 'hashPass' => $this->hashPass
@@ -79,6 +80,42 @@ class User
         {
 
         }
+    }
+
+    static public function showUserById(PDO $connection, $id)
+    {
+        $stmt = $connection->prepare('SELECT * FROM user WHERE id=:id');
+        $result = $stmt->execute(['id'=> $id]);
+
+        if ($result === true && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $loadedUser = new User();
+            $loadedUser->id = $row['id'];
+            $loadedUser->username = $row['username'];
+            $loadedUser->hashPassword = $row['hash_password'];
+            $loadedUser->email = $row['email'];
+            return $loadedUser;
+        }
+
+        return null;
+    }
+
+    static public function showUserByEmail(PDO $connection, $email)
+    {
+        $stmt = $connection->prepare('SELECT * FROM user WHERE email=:email');
+        $result = $stmt->execute(['email'=> $email]);
+
+        if ($result === true && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $loadedUser = new User();
+            $loadedUser->id = $row['id'];
+            $loadedUser->username = $row['username'];
+            $loadedUser->hashPassword = $row['hash_password'];
+            $loadedUser->email = $row['email'];
+            return $loadedUser;
+        }
+
+        return null;
     }
 
 
