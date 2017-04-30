@@ -1,5 +1,5 @@
 <?php
-require_once('../bootstrap.php');
+require_once('bootstrap.php');
 
 
 $errors = [];
@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($user->getHashPass() == $password) {
             $_SESSION['logged'] = true;
-
+            echo "ZALOGOWANY";
 
         } else {
-            $errors[] = "Email niepoprawny.";
+            $errors[] = "Hasło niepoprawne.";
         }
 
     } else {

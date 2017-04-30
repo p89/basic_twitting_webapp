@@ -1,9 +1,7 @@
 <?php
 require_once('../bootstrap.php');
 
-
-
-if (isset($_SESSION['logged'] && $_SESSION['logged'] != false)) {
+if (isset($_SESSION['logged']) && $_SESSION['logged'] != false) {
 
     die('użytkownik musi być zalogowany');
 }

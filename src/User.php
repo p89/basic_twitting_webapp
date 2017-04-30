@@ -100,6 +100,9 @@ class User
         return null;
     }
 
+
+
+
     static public function showUserByEmail(PDO $connection, $email)
     {
         $stmt = $connection->prepare('SELECT * FROM user WHERE email=:email');
@@ -117,6 +120,8 @@ class User
 
         return null;
     }
+
+
 
 
 }

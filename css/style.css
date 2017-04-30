@@ -1,0 +1,12 @@
+body {
+    background-color: #3c7751;
+    color: #ddd;
+}
+
+legend {
+    color: #eee !important;
+}
+
+#tweetBody {
+    height: 130px;
+}
