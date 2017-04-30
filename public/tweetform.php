@@ -1,19 +1,18 @@
 <?php
-//require_once('bootstrap.php');
+require_once('bootstrap.php');
 require_once('../src/Tweet.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tweetTitle']) && isset($_POST['tweetBody'])) {
 
-    try
-    {
-        $tweet = new Tweet($_POST['tweetTitle'], $_POST['tweetBody'], '1', date('Y-m-d H:i:s'));
-        $tweet->saveTweet($connection);
-    }
 
-    catch (PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tweetTitle']) && isset($_POST['tweetBody'])) {
+
+        try {
+            $tweet = new Tweet($_POST['tweetTitle'], $_POST['tweetBody'], '1', date('Y-m-d H:i:s'));
+            $tweet->saveTweet($connection);
+        } catch (PDOException $e) {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
     }
-}
 
 
 ?>
@@ -42,3 +41,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tweetTitle']) && isse
                 </div>
             </form>
         </div>
+    </div>
+</div>

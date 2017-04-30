@@ -1,48 +1,61 @@
 <?php
-require_once('bootstrap.php');
-
+require_once 'bootstrap.php';
 
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
 
-    $user = User::showUserByEmail($connection, $email);
-    if ($user) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'
+        && isset($_POST['email'])
+        && isset($_POST['password'])) {
 
-        if ($user->getHashPass() == $password) {
-            $_SESSION['logged'] = true;
-            echo "ZALOGOWANY";
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
+        $user = User::showUserByEmail($connection, $email);
+
+
+        if ($user) {
+
+            if ($user->getHashPass() == $password) {
+                $_SESSION['logged'] = true;
+                echo "ZALOGOWANY";
+                echo "<meta http-equiv='refresh' content='0'>";
+            } else {
+                $errors[] = 'Hasło niepoprawne ' . $user->getHashPass();
+
+            }
         } else {
-            $errors[] = "Hasło niepoprawne.";
+            $errors[] = 'Brak takiego użytkownika';
         }
 
-    } else {
-        $errors[] = "Nie ma takiego użytkownika.";
-    }
-
-
-} else {
-
-
-
 }
+
+
 ?>
 
+<div class="container" id="loginForm">
+    <div class="row">
 
-<html>
-<body>
-<form method="post">
-    <?php echo join('<br>', $errors); ?>
-    <br>
-    Email: <input name="email">
-    <br>
-    Haslo: <input name="password" type="password">
-    <br>
-    <button type="submit">Loguj</button>
-</form>
-</body>
-</html>
+        <div class="col-lg-6 col-lg-offset-1">
+            <form action="index.php" method="post" role="form">
+                <?php echo join('<br>', $errors); ?>
+                <div class="form-group">
+                    <legend>Zaloguj się:</legend>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="">Adres e-mail:</label>
+                        <input type="text" class="form-control" name="email" id="email" placeholder="e-mail..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hasło:</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                    <button type="submit" name="submit" value="add" class="btn btn-success">Zaloguj się</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 <?php
 require_once('bootstrap.php');
 require_once('../src/Tweet.php');
+require_once('../src/TweetWriter.php');
 ?>
 
 <html>
@@ -17,26 +18,31 @@ require_once('../src/Tweet.php');
 
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <p id="main">
 <?php
-require_once('tweetform.php');
+
+if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
+    require_once('tweetform.php');
+}
+
+if ($_SESSION['logged'] === false) {
+    require_once('admin/login.php');
+    require_once('admin/addUser.php');
+}
+
+
+    //$result = Tweet::loadAllTweets($connection);
+    $result = Tweet::loadTweetByUserId(1, $connection);
+    //TweetWriter::write($result);
+
 
 ?>
-
-<br><br>
-<div>Wyniki:
-<br>
-<?php
-    $result = Tweet::loadAllTweets($connection);
-    var_dump($result);
-
-    foreach ($result as $key => $val) {
-       echo '<div>' . $val->getTitle() . '</div><br>';
-       echo '<div>' . $val->getText() . '</div><br>';
-       echo '<div>Dodano przez: ' . $val->getAuthor() . '</div><br>';
-       echo '<div>Data: ' . $val->getDate() . '</div><br><br>';
-    }
-?>
-
+            </p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

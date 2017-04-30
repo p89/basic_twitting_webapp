@@ -71,15 +71,38 @@ class Tweet
     public function saveTweet (PDO $connection) {
         $insQuery = "INSERT INTO tweet (title, tweetText, tweetDate, author) VALUES (:title, :text, :date, :authorId)";
         $insStmt = $connection->prepare($insQuery);
-        $insStmt->execute(['title' => $this->getTitle(), 'text' => $this->getText(), 'date' => $this->getDate(), 'authorId' => $this->getAuthor()]);
+        $insStmt->execute([
+            'title' => $this->getTitle(),
+            'text' => $this->getText(),
+            'date' => $this->getDate(),
+            'authorId' => $this->getAuthor()
+        ]);
         $lastId = $connection->lastInsertId();
         $this->setId($lastId);
         echo "Dodano tweeta o id: " . $lastId;
 
     }
 
-    public static function loadTweetByUserId () {
+    public static function loadTweetByUserId (INT $authorId, PDO $connection)
+    {
+        $readQuery = "SELECT * FROM tweet WHERE author = :authorId ORDER BY tweetDate DESC";
+        $retRecords = []; // pusta tablica w której przechowamy wyniki zapytania
 
+        $readStmt = $connection->prepare($readQuery);
+        $readStmt->execute(['authorId' => $authorId]);
+        $finalResult = $readStmt->fetchAll();
+
+        if ($finalResult) {
+            foreach ($finalResult as $row) {
+
+                $loadedTweet = new Tweet($row['title'], $row['tweetText'], $row['author'], $row['tweetDate']);
+                $loadedTweet->setId($row['id']);
+
+                $retRecords[] = $loadedTweet;
+            }
+            return $retRecords;
+        }
+        return null;
     }
 
     static public function loadAllTweets(PDO $connection)

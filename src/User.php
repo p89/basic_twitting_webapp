@@ -113,7 +113,7 @@ class User
             $loadedUser = new User();
             $loadedUser->id = $row['id'];
             $loadedUser->username = $row['username'];
-            $loadedUser->hashPassword = $row['hash_password'];
+            $loadedUser->hashPass = $row['hash_password'];
             $loadedUser->email = $row['email'];
             return $loadedUser;
         }

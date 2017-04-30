@@ -11,6 +11,5 @@ if ($connection->errorCode() != null) {
 $connection -> query ('SET NAMES utf8');
 $connection -> query ('SET CHARACTER SET utf8');
 
-echo "Nawiązano połączenie.<br>";
 
 
