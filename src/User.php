@@ -1,4 +1,5 @@
 <?php
+require_once('passHandler.php');
 
 class User
 {
@@ -6,6 +7,7 @@ class User
     private $userName;
     private $hashPass;
     private $email;
+    private $salt;
 
     public function __construct()
     {
@@ -37,9 +39,16 @@ class User
         return $this->hashPass;
     }
 
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
     public function setHashPass($hashPass)
     {
-        $this->hashPass = $hashPass;
+        $hashedPass = passHandler::hashPassword($hashPass);
+        $this->hashPass = $hashedPass[0];
+        $this->salt = $hashedPass[1];
     }
 
     public function getEmail()
@@ -56,15 +65,15 @@ class User
     {
         if ($this->id == -1)
         {
-            $sql = "INSERT INTO user(username, email, hash_password) VALUES (:username, :email, :hashPass)";
+            $sql = "INSERT INTO user(username, email, hash_password, salt) VALUES (:username, :email, :hashPass, :salt)";
 
 
             $prepare = $pdo->prepare($sql);
             $result = $prepare->execute([
                 'username' => $this->userName,
                 'email' => $this->email,
-                'hashPass' => $this->hashPass
-
+                'hashPass' => $this->hashPass,
+                'salt' => $this->salt
             ]);
 
             if (!$result) {
@@ -94,6 +103,7 @@ class User
             $loadedUser->username = $row['username'];
             $loadedUser->hashPassword = $row['hash_password'];
             $loadedUser->email = $row['email'];
+            $loadedUser->salt = $row['salt'];
             return $loadedUser;
         }
 
@@ -115,6 +125,7 @@ class User
             $loadedUser->username = $row['username'];
             $loadedUser->hashPass = $row['hash_password'];
             $loadedUser->email = $row['email'];
+            $loadedUser->salt = $row['salt'];
             return $loadedUser;
         }
 

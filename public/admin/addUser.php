@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     $user->setHashPass($password);
 
     $result = $user->save($connection);
+    echo '<div class="container" id="createAccForm"><div class="row"><div class="col-lg-6 col-lg-offset-1"><h1 style="font-size: 26px; color: #aaeeff;">Utworzono konto nowego użytkownika.</h1></div></div></div>';
 }
 ?>
 <br>

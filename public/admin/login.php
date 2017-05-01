@@ -1,5 +1,6 @@
 <?php
 require_once 'bootstrap.php';
+require_once('../src/passHandler.php');
 
 $errors = [];
 
@@ -12,26 +13,25 @@ $errors = [];
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+
         $user = User::showUserByEmail($connection, $email);
 
 
         if ($user) {
 
-            if ($user->getHashPass() == $password) {
+            $passSalted = $password . $user->getSalt();
+
+            if (passHandler::verifyPass($passSalted, $user->getHashPass())) {
                 $_SESSION['logged'] = true;
                 echo "ZALOGOWANY";
                 echo "<meta http-equiv='refresh' content='0'>";
             } else {
-                $errors[] = 'Hasło niepoprawne ' . $user->getHashPass();
-
+                $errors[] = 'Hasło niepoprawne.';
             }
         } else {
             $errors[] = 'Brak takiego użytkownika';
         }
-
 }
-
-
 ?>
 
 <div class="container" id="loginForm">

@@ -21,7 +21,7 @@ require_once('../src/Tweet.php');
 <div class="container">
     <div class="row">
 
-        <div class="col-lg-4 col-lg-offset-4">
+        <div class="col-lg-6 col-lg-offset-1">
             <form action="" method="post" role="form">
                 <div class="form-group">
                     <legend>Add tweet:</legend>

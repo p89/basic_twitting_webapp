@@ -5,7 +5,7 @@ require_once('../src/TweetWriter.php');
 ?>
 
 <html>
-<title>Tweet adding form</title>
+<title>basic-tweet-app</title>
 <head>
 
     <meta charset="UTF-8">
@@ -28,7 +28,7 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
     require_once('tweetform.php');
 }
 
-if ($_SESSION['logged'] === false) {
+if (isset($_SESSION['logged']) == false || $_SESSION['logged'] === false) {
     require_once('admin/login.php');
     require_once('admin/addUser.php');
 }
