@@ -24,21 +24,12 @@ require_once('../src/TweetWriter.php');
             <p id="main">
 <?php
 
-if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
-    require_once('tweetform.php');
-}
-
-if (isset($_SESSION['logged']) == false || $_SESSION['logged'] === false) {
+if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
     require_once('admin/login.php');
+}
+if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false && !isset($_POST['email'])) {
     require_once('admin/addUser.php');
 }
-
-
-    //$result = Tweet::loadAllTweets($connection);
-    $result = Tweet::loadTweetByUserId(1, $connection);
-    //TweetWriter::write($result);
-
-
 ?>
             </p>
         </div>

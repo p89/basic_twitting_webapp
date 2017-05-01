@@ -1,4 +1,5 @@
 <?php
+require_once ('TweetWriter.php');
 
 class Tweet
 {
@@ -21,16 +22,10 @@ class Tweet
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getTitle()
+        public function getTitle()
     {
         return $this->title;
     }
-
 
     public function setTitle($title)
     {
@@ -67,7 +62,6 @@ class Tweet
         $this->date = $date;
     }
 
-
     public function saveTweet (PDO $connection) {
         $insQuery = "INSERT INTO tweet (title, tweetText, tweetDate, author) VALUES (:title, :text, :date, :authorId)";
         $insStmt = $connection->prepare($insQuery);
@@ -77,9 +71,9 @@ class Tweet
             'date' => $this->getDate(),
             'authorId' => $this->getAuthor()
         ]);
-        $lastId = $connection->lastInsertId();
-        $this->setId($lastId);
-        echo "Dodano tweeta o id: " . $lastId;
+        //$lastId = $connection->lastInsertId();
+        //$this->setId($lastId);
+        //echo "Dodano tweeta o id: " . $lastId;
 
     }
 
@@ -96,7 +90,7 @@ class Tweet
             foreach ($finalResult as $row) {
 
                 $loadedTweet = new Tweet($row['title'], $row['tweetText'], $row['author'], $row['tweetDate']);
-                $loadedTweet->setId($row['id']);
+
 
                 $retRecords[] = $loadedTweet;
             }
@@ -118,7 +112,6 @@ class Tweet
             foreach ($finalResult as $row) {
 
                 $loadedTweet = new Tweet($row['title'], $row['tweetText'], $row['author'], $row['tweetDate']);
-                $loadedTweet->setId($row['id']);
 
                 $retRecords[] = $loadedTweet;
             }
@@ -127,8 +120,18 @@ class Tweet
         return null;
     }
 
+    static public function write(PDO $connection) {
+        TweetWriter::write($connection, self::loadAllTweets($connection));
+    }
 
+    static public function loadAuthorById(PDO $connection, $id)
+    {
+        $readQuery = "SELECT username FROM user INNER JOIN tweet on tweet.author = user.id WHERE user.id = :userId";
 
+        $readStmt = $connection->prepare($readQuery);
+        $readStmt->execute(['userId' => $id]);
+        $userName = $readStmt->fetch(PDO::FETCH_ASSOC);
 
-
+        return $userName['username'];
+    }
 }

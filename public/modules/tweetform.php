@@ -2,8 +2,6 @@
 require_once('bootstrap.php');
 require_once('../src/Tweet.php');
 
-
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tweetTitle']) && isset($_POST['tweetBody'])) {
 
         try {
@@ -13,33 +11,26 @@ require_once('../src/Tweet.php');
             echo 'Connection failed: ' . $e->getMessage();
         }
     }
-
-
 ?>
 
 
-<div class="container">
-    <div class="row">
 
-        <div class="col-lg-6 col-lg-offset-1">
             <form action="" method="post" role="form">
-                <div class="form-group">
-                    <legend>Add tweet:</legend>
+                <div class="form-group tweetForm">
+                    <legend>Nowy tweet:</legend>
                 </div>
 
                 <div class="form-group">
                     <div class="form-group">
-                        <label for="">Title</label>
-                        <input type="text" class="form-control" name="tweetTitle" id="tweetTitle" placeholder="Title...">
+                        <label for="">Tytuł</label>
+                        <input type="text" class="form-control tweetForm" name="tweetTitle" id="tweetTitle" placeholder="Title...">
                     </div>
                     <div class="form-group">
-                        <label for="">Text</label>
+                        <label for="">Treść</label>
                         <textarea class="form-control" maxlength="140" name="tweetBody" id="tweetBody"
-                                  placeholder="Text - max 140 characters..."></textarea>
+                                  placeholder="Treść - maksymalnie 140 znaków..."></textarea>
                     </div>
-                    <button type="submit" name="submit" value="add" class="btn btn-success">ADD TWEET</button>
+                    <button type="submit" name="submit" value="add" class="btn btn-success">DODAJ TWEETA</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
+

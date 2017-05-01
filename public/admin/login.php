@@ -4,8 +4,6 @@ require_once('../src/passHandler.php');
 
 $errors = [];
 
-
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST'
         && isset($_POST['email'])
         && isset($_POST['password'])) {
@@ -13,9 +11,7 @@ $errors = [];
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-
         $user = User::showUserByEmail($connection, $email);
-
 
         if ($user) {
 
@@ -23,8 +19,11 @@ $errors = [];
 
             if (passHandler::verifyPass($passSalted, $user->getHashPass())) {
                 $_SESSION['logged'] = true;
-                echo "ZALOGOWANY";
-                echo "<meta http-equiv='refresh' content='0'>";
+                $_SESSION['userName'] = $user->getUserName();
+                $_SESSION['userId'] = $user->getId();
+                $_SESSION['userMail'] = $user->getEmail();
+
+                header( "refresh:0;url=main.php");
             } else {
                 $errors[] = 'Hasło niepoprawne.';
             }

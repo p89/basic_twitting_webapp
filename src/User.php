@@ -122,7 +122,7 @@ class User
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $loadedUser = new User();
             $loadedUser->id = $row['id'];
-            $loadedUser->username = $row['username'];
+            $loadedUser->userName = $row['username'];
             $loadedUser->hashPass = $row['hash_password'];
             $loadedUser->email = $row['email'];
             $loadedUser->salt = $row['salt'];
