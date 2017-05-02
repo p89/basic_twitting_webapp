@@ -63,24 +63,23 @@ class Tweet
     }
 
     public function saveTweet (PDO $connection) {
-        $insQuery = "INSERT INTO tweet (title, tweetText, tweetDate, author) VALUES (:title, :text, :date, :authorId)";
+        $insQuery = "INSERT INTO tweet (id, title, tweetText, tweetDate, author) VALUES (null, :title, :text, :tweetDate, :authorId)";
         $insStmt = $connection->prepare($insQuery);
         $insStmt->execute([
             'title' => $this->getTitle(),
             'text' => $this->getText(),
-            'date' => $this->getDate(),
+            'tweetDate' => $this->getDate(),
             'authorId' => $this->getAuthor()
         ]);
-        //$lastId = $connection->lastInsertId();
-        //$this->setId($lastId);
-        //echo "Dodano tweeta o id: " . $lastId;
-
+        $lastId = $connection->lastInsertId();
+        $this->id = $lastId;
+        echo "Dodano tweeta o id: " . $this->getId();
     }
 
     public static function loadTweetByUserId (INT $authorId, PDO $connection)
     {
         $readQuery = "SELECT * FROM tweet WHERE author = :authorId ORDER BY tweetDate DESC";
-        $retRecords = []; // pusta tablica w której przechowamy wyniki zapytania
+        $retRecords = [];
 
         $readStmt = $connection->prepare($readQuery);
         $readStmt->execute(['authorId' => $authorId]);
@@ -102,7 +101,7 @@ class Tweet
     static public function loadAllTweets(PDO $connection)
     {
         $readQuery = "SELECT * FROM tweet ORDER BY tweetDate DESC";
-        $retRecords = []; // pusta tablica w której przechowamy wyniki zapytania
+        $retRecords = [];
 
         $readStmt = $connection->prepare($readQuery);
         $readStmt->execute();
@@ -120,8 +119,12 @@ class Tweet
         return null;
     }
 
-    static public function write(PDO $connection) {
+    static public function writeAllTweets(PDO $connection) {
         TweetWriter::write($connection, self::loadAllTweets($connection));
+    }
+
+    static public function writeTweetsById(PDO $connection, $id) {
+        TweetWriter::write($connection, self::loadTweetByUserId($id, $connection));
     }
 
     static public function loadAuthorById(PDO $connection, $id)

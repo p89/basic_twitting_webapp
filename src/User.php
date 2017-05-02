@@ -67,13 +67,12 @@ class User
         {
             $sql = "INSERT INTO user(username, email, hash_password, salt) VALUES (:username, :email, :hashPass, :salt)";
 
-
             $prepare = $pdo->prepare($sql);
             $result = $prepare->execute([
-                'username' => $this->userName,
-                'email' => $this->email,
-                'hashPass' => $this->hashPass,
-                'salt' => $this->salt
+                'username' => $this->getUserName(),
+                'email' => $this->getEmail(),
+                'hashPass' => $this->getHashPass(),
+                'salt' => $this->getSalt()
             ]);
 
             if (!$result) {
@@ -87,7 +86,20 @@ class User
         }
         else
         {
+            $updateSql = "UPDATE user SET hash_password = :hashPass, salt = :salt WHERE user.id = :userId";
 
+            $prepare = $pdo->prepare($updateSql);
+            $result = $prepare->execute([
+                'hashPass' => $this->getHashPass(),
+                'userId' => $this->getId(),
+                'salt' => $this->getSalt()
+            ]);
+
+            if (!$result) {
+                die('Zapis się nie powiódł.');
+            }
+
+            return (bool)$result;
         }
     }
 
@@ -96,7 +108,7 @@ class User
         $stmt = $connection->prepare('SELECT * FROM user WHERE id=:id');
         $result = $stmt->execute(['id'=> $id]);
 
-        if ($result === true && $stmt->rowCount() > 0) {
+        if ($result && $stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $loadedUser = new User();
             $loadedUser->id = $row['id'];
@@ -110,15 +122,12 @@ class User
         return null;
     }
 
-
-
-
     static public function showUserByEmail(PDO $connection, $email)
     {
         $stmt = $connection->prepare('SELECT * FROM user WHERE email=:email');
         $result = $stmt->execute(['email'=> $email]);
 
-        if ($result === true && $stmt->rowCount() > 0) {
+        if ($result && $stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $loadedUser = new User();
             $loadedUser->id = $row['id'];
@@ -132,6 +141,18 @@ class User
         return null;
     }
 
+    static public function deleteUserById(PDO $connection, $id)
+    {
+        $stmt = $connection->prepare('DELETE FROM user WHERE id=:id');
+        $result = $stmt->execute(['id'=> $id]);
+
+        if ($result) {
+            echo "Usunięto użytkownika o id: " . $id;
+            return $loadedUser;
+        }
+
+        return null;
+    }
 
 
 

@@ -28,17 +28,22 @@ if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-
-            <a class="navbar-brand" href="main.php">basic-tweet-app</a>
+            <a class="navbar-brand" href="main.php">
+                <?php
+                if (isset($_SESSION['userName']) && isset($_SESSION['userId'])) {
+                    echo 'Witaj, ' . ucfirst($_SESSION['userName']) . '!';
+                }
+                ?>
+            </a>
         </div>
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li><a onclick="scroll(0,0)" href="#">Strona główna</a></li>
+                <li><a onclick="scroll(0,0)" href="main.php?page=main">Strona główna</a></li>
                 <li><a href="main.php?page=addTweet">Dodaj tweeta!</a></li>
-                <li><a href="#portfolio">Twoje tweety</a></li>
-                <li><a href="#motorsports">Wiadomości</a></li>
+                <li><a href="main.php?page=userTweets">Twoje tweety</a></li>
+                <li><a href="main.php?page=messages">Wiadomości</a></li>
+                <li><a href="main.php?page=profile">Profil</a></li>
                 <li><a href="admin/logout.php">Wyloguj się</a></li>
-
             </ul>
         </div>
     </div>
@@ -46,34 +51,32 @@ if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
 
 <div class="container">
     <div class="row">
-
-        <div class="col-lg-6 col-lg-offset-3"><br><br><br>
-
-<!--            TO DO:
-            1. Dodać sprawdzenia z GETów do wyświetlania poszczególnych podstron w main
-            2. Do tweetform dodać pobieranie IDa użytkownika z sesji
-
-            -->
-
-
+        <div class="col-lg-6 col-lg-offset-3"><br><br><br><br>
 
             <?php
 
             if (isset($_SESSION['userName']) && isset($_SESSION['userId'])) {
 
 
-                echo '<h1>Witaj, ' .  ucfirst($_SESSION['userName']) . '!</h1>';
-
-
-                if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['page'])) {
-
-
+                if (isset($_GET['page']) && $_GET['page'] === 'addTweet') {
                     require_once('modules/tweetform.php');
-
                 }
 
-                echo 'Lista wszystkich tweetów od najnowszych:<br>';
-                require_once ('modules/allTweets.php');
+                if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['page']) && $_GET['page'] === 'userTweets') {
+                    require_once('modules/userTweets.php');
+                }
+
+                if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['page']) && $_GET['page'] === 'main') {
+
+                    //echo 'Lista wszystkich tweetów od najnowszych:<br>';
+                    require_once ('modules/allTweets.php');
+                }
+
+                if (isset($_GET['page']) && $_GET['page'] === 'profile') {
+
+                    require_once ('modules/userAccount.php');
+                }
+
             }
             ?>
 

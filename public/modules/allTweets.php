@@ -1,8 +1,8 @@
 <?php
-require_once('bootstrap.php');
-require_once('../src/User.php');
-require_once('../src/TweetWriter.php');
-require_once('../src/Tweet.php');
+//require_once('bootstrap.php');
+//require_once('../src/User.php');
+//require_once('../src/TweetWriter.php');
+//require_once('../src/Tweet.php');
 
 
 if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
@@ -10,7 +10,9 @@ if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
     header( "refresh:3;url=../index.php");
     die();
 } else {
-    Tweet::write($connection);
+    Tweet::writeAllTweets($connection);
 }
+
+
 
 
