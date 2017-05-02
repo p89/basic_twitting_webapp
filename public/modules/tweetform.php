@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     <div class="form-group">
         <div class="form-group">
             <label for="">Tytuł</label>
-            <input type="text" class="form-control tweetForm" name="tweetTitle" id="tweetTitle" placeholder="Title...">
+            <input type="text" class="form-control tweetForm" name="tweetTitle" id="tweetTitle" placeholder="Tytuł...">
         </div>
         <div class="form-group">
             <label for="">Treść</label>

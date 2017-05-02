@@ -118,7 +118,6 @@ class User
             $loadedUser->salt = $row['salt'];
             return $loadedUser;
         }
-
         return null;
     }
 
@@ -137,7 +136,6 @@ class User
             $loadedUser->salt = $row['salt'];
             return $loadedUser;
         }
-
         return null;
     }
 
@@ -147,13 +145,11 @@ class User
         $result = $stmt->execute(['id'=> $id]);
 
         if ($result) {
-            echo "Usunięto użytkownika o id: " . $id;
-            return $loadedUser;
+            echo "Konto usunięte.";
+            $_SESSION['logged'] = false;
+            session_unset();
+            return true;
         }
-
         return null;
     }
-
-
-
 }
