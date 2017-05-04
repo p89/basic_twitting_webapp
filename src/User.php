@@ -63,8 +63,17 @@ class User
 
     public function save(PDO $pdo)
     {
+
         if ($this->id == -1)
         {
+            $dupeCheck = $pdo->prepare('SELECT * FROM user WHERE username = :username');
+            $dupeResult = $dupeCheck->execute(['username'=> $this->getUserName()]);
+            if ($dupeResult) {
+                echo '<br><br><br><div align="center"><h1><a href="index.php">Wybrana nazwa użytkownika jest już zajęta.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
+                header( "refresh:5;url=index.php");
+                die();
+            }
+
             $sql = "INSERT INTO user(username, email, hash_password, salt) VALUES (:username, :email, :hashPass, :salt)";
 
             $prepare = $pdo->prepare($sql);
@@ -76,12 +85,15 @@ class User
             ]);
 
             if (!$result) {
-                die('Zapis się nie powiódł.');
+                echo '<br><br><br><div align="center"><h1><a href="index.php">Zapis się nie powiódł.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
+                header( "refresh:3;url=index.php");
+                die();
             }
 
             $this->id = $pdo->lastInsertId();
 
             return (bool)$result;
+
 
         }
         else
@@ -112,9 +124,9 @@ class User
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $loadedUser = new User();
             $loadedUser->id = $row['id'];
-            $loadedUser->username = $row['username'];
-            $loadedUser->hashPassword = $row['hash_password'];
-            $loadedUser->email = $row['email'];
+            $loadedUser->setUserName($row['username']);
+            $loadedUser->hashPass = $row['hash_password'];
+            $loadedUser->setEmail($row['email']);
             $loadedUser->salt = $row['salt'];
             return $loadedUser;
         }
@@ -125,6 +137,24 @@ class User
     {
         $stmt = $connection->prepare('SELECT * FROM user WHERE email=:email');
         $result = $stmt->execute(['email'=> $email]);
+
+        if ($result && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $loadedUser = new User();
+            $loadedUser->id = $row['id'];
+            $loadedUser->setUserName($row['username']);
+            $loadedUser->hashPass = $row['hash_password'];
+            $loadedUser->setEmail($row['email']);
+            $loadedUser->salt = $row['salt'];
+            return $loadedUser;
+        }
+        return null;
+    }
+
+    static public function showUserByUserName(PDO $connection, $userName)
+    {
+        $stmt = $connection->prepare('SELECT * FROM user WHERE username=:userName');
+        $result = $stmt->execute(['userName'=> $userName]);
 
         if ($result && $stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);

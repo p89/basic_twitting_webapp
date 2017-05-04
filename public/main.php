@@ -2,6 +2,7 @@
 require_once('bootstrap.php');
 require_once('../src/Tweet.php');
 require_once('../src/TweetWriter.php');
+require_once('../src/Message.php');
 
 if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
     echo '<br><br><br><div align="center"><h1><a href="index.php">Prosimy o zalogowanie się.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
@@ -75,6 +76,16 @@ if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
                 if (isset($_GET['page']) && $_GET['page'] === 'profile') {
 
                     require_once ('modules/userAccount.php');
+                }
+
+                if (isset($_GET['page']) && $_GET['page'] === 'messages') {
+
+                    require_once ('modules/userMessages.php');
+                }
+
+                if (isset($_GET['page']) && $_GET['page'] === 'userPage') {
+
+                    require_once ('modules/userPage.php');
                 }
 
             }
