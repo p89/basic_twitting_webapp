@@ -25,7 +25,10 @@ class msgWriter
                 $sender = User::showUserById($connection, $val->getSenderId());
                 var_dump($sender);
                 echo "<h4>Wiadomość nr: " . $val->getId() . " Nadawca: " .$sender->getUserName() . ' (' . $val->getSendDate() . ')</h4>';
+                // + nieprzeczytana
 
+                // wygenerować linki z getem do poszczególnych wiadomości (tutaj sprawdzić i zmienić flagę wasRead)
+                // wygenerować wiadomość plus formularz odpowiedzi
 
             }
         }
