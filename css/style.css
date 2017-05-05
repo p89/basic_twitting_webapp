@@ -29,6 +29,16 @@ legend {
     color: #aaeeff;
 }
 
+.msgUnread {
+    color: #89ff00 !important;
+    font-size: 18px !important;
+}
+
+.msgRead {
+    color: #d16eff !important;
+    font-size: 18px !important;
+}
+
 table.table-style-one {
     width: 500px;
     font-family: verdana,arial,sans-serif;
