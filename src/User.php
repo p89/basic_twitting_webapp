@@ -1,5 +1,5 @@
 <?php
-require_once('passHandler.php');
+require_once('PassHandler.php');
 
 class User
 {
@@ -67,10 +67,12 @@ class User
         if ($this->id == -1)
         {
             $dupeCheck = $pdo->prepare('SELECT * FROM user WHERE username = :username');
-            $dupeResult = $dupeCheck->execute(['username'=> $this->getUserName()]);
+            $dupeCheck->execute(['username'=> $this->getUserName()]);
+            $dupeResult = $dupeCheck->fetchAll();
+
             if ($dupeResult) {
-                echo '<br><br><br><div align="center"><h1><a href="index.php">Wybrana nazwa użytkownika jest już zajęta.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-                header( "refresh:5;url=index.php");
+                echo '<br><br><br><div align="center"><h1><a href="index.php?addUser=1">Wybrana nazwa użytkownika jest już zajęta.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
+                header( "refresh:4;url=index.php?addUser=1");
                 die();
             }
 
@@ -85,8 +87,8 @@ class User
             ]);
 
             if (!$result) {
-                echo '<br><br><br><div align="center"><h1><a href="index.php">Zapis się nie powiódł.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-                header( "refresh:3;url=index.php");
+                echo '<br><br><br><div align="center"><h1><a href="index.php?addUser=1">Zapis się nie powiódł.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
+                header( "refresh:3;url=index.php?addUser=1");
                 die();
             }
 

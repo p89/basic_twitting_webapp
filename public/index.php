@@ -22,13 +22,17 @@ require_once('../src/TweetWriter.php');
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
             <p id="main">
+            <p id="header">Basic Twitting App</p><br>
 <?php
 
 if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
     require_once('admin/login.php');
+    echo '<p align="center"><a href="index.php?addUser=1" class="newAccount">Załóż nowe konto</a></p>';
 }
 if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false && !isset($_POST['email'])) {
-    require_once('admin/addUser.php');
+    if (isset($_GET['addUser']) && $_GET['addUser'] == 1) {
+        require_once('admin/addUser.php');
+    }
 }
 ?>
             </p>

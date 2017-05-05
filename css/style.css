@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Fugaz+One');
+
 body {
     background-color: #3c7751;
     color: #ddd;
@@ -12,13 +14,34 @@ legend {
     width: 500px !important;
 }
 
+.newAccount {
+    font-size: 20px;
+    color: #6dff28;
 
+}
+
+.sessionChecker {
+    font-size: 35px !important;
+    color: #DB7093 !important;
+}
 
 .tweetForm {
     width: 500px !important;
 }
 
+#header {
+    font-family: 'Fugaz One', cursive;
+    font-size: 45px;
+    color: #fff;
+    text-align: center;
+}
 
+#tweetsHeader {
+    font-family: 'Fugaz One', cursive;
+    font-size: 35px;
+    color: #c4ff1a;
+    text-align: center;
+}
 
 #main {
     margin-bottom: 1cm;

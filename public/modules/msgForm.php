@@ -1,15 +1,14 @@
 <?php
+require_once ('../autoload.php');
+SessionChecker::checkSession();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'
     && isset($_POST['msgContent'])
-    && isset($_SESSION['userId'])
-    && $_SESSION['userId'] > 0
 ) {
     try {
-        //$senderId, $receiverId, $sendDate, $content, $wasRead = 0)
-    if ($_SESSION['userId'] == $user->getId()) {
-        die("Nie możesz wysłać wiadomości do samego siebie.");
-    }
+        if ($_SESSION['userId'] == $user->getId()) {
+            die("Nie możesz wysłać wiadomości do samego siebie.");
+        }
         $msg = new Message($_SESSION['userId'], $user->getId(), date('Y-m-d H:i:s'), $_POST['msgContent'], 0);
         $msg->sendMsg($connection);
     } catch (PDOException $e) {

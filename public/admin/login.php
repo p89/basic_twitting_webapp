@@ -1,6 +1,6 @@
 <?php
 require_once 'bootstrap.php';
-require_once('../src/passHandler.php');
+require_once('../src/PassHandler.php');
 
 $errors = [];
 
@@ -23,7 +23,7 @@ $errors = [];
                 $_SESSION['userId'] = $user->getId();
                 $_SESSION['userMail'] = $user->getEmail();
 
-                header( "refresh:0;url=main.php");
+                header( "refresh:0;url=main.php?page=main");
             } else {
                 $errors[] = 'Hasło niepoprawne.';
             }

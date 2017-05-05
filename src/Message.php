@@ -1,5 +1,5 @@
 <?php
-require_once ('msgWriter.php');
+require_once('MsgWriter.php');
 
 class Message
 {

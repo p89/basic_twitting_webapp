@@ -1,17 +1,11 @@
 <?php
-
-if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
-    echo '<br><br><br><div align="center"><h1><a href="index.php">Prosimy o zalogowanie się.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-    header( "refresh:3;url=index.php");
-    die();
-}
+require_once ('../autoload.php');
+SessionChecker::checkSession();
 
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && isset($_SESSION['logged'])
     && isset($_SESSION['userId'])
-    && isset($_SESSION['logged']) === true
     && isset($_POST['submit'])
     && $_POST['submit'] === 'deleteUser') {
 
@@ -19,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     echo '<br><br><br><div align="center"><h1><a href="index.php">Konto usunięte.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
     header( "refresh:3;url=index.php");
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($_POST['newPass2']) && isset($_POST['submit']) && $_POST['submit'] === 'changePassword') {
 
@@ -48,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($
                     $user->setHashPass($newPassword);
                     $result = $user->save($connection);
 
-
                     echo '<br><br><br><div align="center"><h1><a href="index.php">Hasło zmienione.</a></h1><h4>Zaloguj się ponownie...</h4></div>';
                     $_SESSION['logged'] = false;
                     session_unset();
@@ -64,9 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($
         }
     }
 }
-
-
-
 ?>
 
 <form action="main.php?page=profile" method="POST" role="form">
