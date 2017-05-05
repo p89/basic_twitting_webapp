@@ -92,7 +92,7 @@ class Message
         ]);
         $lastId = $connection->lastInsertId();
         $this->id = $lastId;
-        echo "Wysłano wiadomość o id: " . $this->getId();
+        echo "Wiadomość wysłana poprawnie.";
     }
 
     public static function loadMsgBySenderId (INT $senderId, PDO $connection)

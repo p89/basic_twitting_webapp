@@ -6,10 +6,12 @@ if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false) {
 } else {
     if (isset($_SESSION['userId']) && $_SESSION['userId'] > 0) {
 
-        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['messageId'])) {
+        if (isset($_GET['messageId'])) {
             $clickedMsg = Message::loadMsgByMsgId($_GET['messageId'], $connection);
             msgWriter::write($connection, $clickedMsg);
             $clickedMsg[0]->setReadStatus($connection, 1);
+            $user = User::showUserById($connection, $clickedMsg[0]->getSenderId());
+            require_once ('msgForm.php');
         }
         $messages = Message::loadMsgByReceiverId($_SESSION['userId'], $connection);
         $message = msgWriter::generateLinks($connection, $messages);
