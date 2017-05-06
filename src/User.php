@@ -1,5 +1,6 @@
 <?php
 require_once('PassHandler.php');
+require_once('SessionChecker.php');
 
 class User
 {
@@ -71,9 +72,7 @@ class User
             $dupeResult = $dupeCheck->fetchAll();
 
             if ($dupeResult) {
-                echo '<br><br><br><div align="center"><h1><a href="index.php?addUser=1">Wybrana nazwa użytkownika jest już zajęta.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-                header( "refresh:4;url=index.php?addUser=1");
-                die();
+                SessionChecker::redirectWithMsg('Wybrana nazwa użytkownika jest już zajęta.', '?addUser=1');
             }
 
             $sql = "INSERT INTO user(username, email, hash_password, salt) VALUES (:username, :email, :hashPass, :salt)";
@@ -87,16 +86,11 @@ class User
             ]);
 
             if (!$result) {
-                echo '<br><br><br><div align="center"><h1><a href="index.php?addUser=1">Zapis się nie powiódł.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-                header( "refresh:3;url=index.php?addUser=1");
-                die();
+                SessionChecker::redirectWithMsg('Zapis się nie powiódł.', '?addUser=1');
             }
 
             $this->id = $pdo->lastInsertId();
-
             return (bool)$result;
-
-
         }
         else
         {
@@ -112,7 +106,6 @@ class User
             if (!$result) {
                 die('Zapis się nie powiódł.');
             }
-
             return (bool)$result;
         }
     }

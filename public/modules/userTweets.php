@@ -1,12 +1,15 @@
 <?php
-require_once ('../autoload.php');
+require_once (__DIR__ . '../../bootstrap.php');
 SessionChecker::checkSession();
+
+if (!isset($_GET['page'])) {
+    SessionChecker::redirectWithMsg('Błędny adres strony.');
+}
 
 if (isset($_SESSION['userId']) && $_SESSION['userId'] > 0) {
     Tweet::writeTweetsById($connection, $_SESSION['userId']);
 } else {
-    echo '<br><br><br><div align="center"><h1><a href="index.php">Błędny identyfikator użytkownika.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-    header( "refresh:3;url=../index.php");
+    SessionChecker::redirectWithMsg('Błędny identyfikator użytkownika.');
 }
 
 

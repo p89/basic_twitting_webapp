@@ -1,6 +1,10 @@
 <?php
-require_once ('../autoload.php');
+require_once (__DIR__ . '../../bootstrap.php');
 SessionChecker::checkSession();
+
+if (!isset($_GET['page'])) {
+    SessionChecker::redirectWithMsg('Błędny adres strony.');
+}
 
 $errors = [];
 
@@ -10,8 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     && $_POST['submit'] === 'deleteUser') {
 
     User::deleteUserById($connection, $_SESSION['userId']);
-    echo '<br><br><br><div align="center"><h1><a href="index.php">Konto usunięte.</a></h1><h4>automatyczne przekierowanie...</h4></div>';
-    header( "refresh:3;url=index.php");
+    SessionChecker::redirectWithMsg('Konto usunięte.');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($_POST['newPass2']) && isset($_POST['submit']) && $_POST['submit'] === 'changePassword') {
@@ -29,23 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($
             $oldPassword = $_POST['oldPass'];
             $newPassword = $_POST['newPass'];
 
+
             $user = User::showUserByEmail($connection, $email);
 
             if ($user) {
-
                 $passSalted = $oldPassword . $user->getSalt();
 
                 if (passHandler::verifyPass($passSalted, $user->getHashPass())) {
 
-
                     $user->setHashPass($newPassword);
                     $result = $user->save($connection);
 
-                    echo '<br><br><br><div align="center"><h1><a href="index.php">Hasło zmienione.</a></h1><h4>Zaloguj się ponownie...</h4></div>';
                     $_SESSION['logged'] = false;
                     session_unset();
                     $connection = null;
-                    header( "refresh:3;url=index.php");
+                    SessionChecker::redirectWithMsg('Hasło zmienione, zaloguj się ponownie.');
 
                 } else {
                     $errors[] = 'Hasło niepoprawne.';
@@ -56,6 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($
         }
     }
 }
+
+if (isset($_SESSION['userId']) && $_SESSION['userName'] && $_SESSION['userMail']) {
+echo '<h4>Nr id konta: ' . $_SESSION['userId'] . '</h4>';
+echo '<h4>Nazwa użytkownika: ' . $_SESSION['userName'] . '</h4>';
+echo '<h4>Adres e-mail: ' . $_SESSION['userMail'] . '</h4>';
+}
+
 ?>
 
 <form action="main.php?page=profile" method="POST" role="form">

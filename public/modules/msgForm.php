@@ -1,6 +1,10 @@
 <?php
-require_once ('../autoload.php');
+require_once (__DIR__ . '../../bootstrap.php');
 SessionChecker::checkSession();
+
+if (!isset($_GET['page'])) {
+    SessionChecker::redirectWithMsg('Błędny adres strony.');
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'
     && isset($_POST['msgContent'])

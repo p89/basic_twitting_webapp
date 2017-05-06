@@ -34,6 +34,10 @@ if (!isset($_SESSION['logged']) || $_SESSION['logged'] === false && !isset($_POS
         require_once('admin/addUser.php');
     }
 }
+
+if (isset($_SESSION['logged']) && $_SESSION['logged'] == true) {
+    header( "refresh:0;url=main.php?page=main");
+}
 ?>
             </p>
         </div>

@@ -17,21 +17,23 @@ class msgWriter
         }
     }
 
-    public static function generateLinks($connection, $objArray) {
+    public static function generateLinks($connection, $objArray, $showSender) {
 
         if ($objArray) {
             foreach ($objArray as $key => $val) {
 
-                $sender = User::showUserById($connection, $val->getSenderId());
                 if ($val->getWasRead() == 0) {
                     echo '<a class="msgUnread" href=main.php?page=messages&messageId=' . $val->getId() . '> Nieprzeczytana ';
                 } elseif ($val->getWasRead() == 1) {
                     echo '<a class="msgRead" href=main.php?page=messages&messageId=' . $val->getId() . '> Przeczytana ';
                 }
-                echo " || Od: " .$sender->getUserName() . ' (' . $val->getSendDate() . ')</a><br>';
-
-                // wygenerować linki z getem do poszczególnych wiadomości (tutaj sprawdzić i zmienić flagę wasRead)
-                // wygenerować wiadomość plus formularz odpowiedzi
+                if ($showSender == true) {
+                    $user = User::showUserById($connection, $val->getSenderId());
+                    echo " || Od: " .$user->getUserName() . ' (' . $val->getSendDate() . ')</a><br>';
+                } else {
+                    $user = User::showUserById($connection, $val->getReceiverId());
+                    echo " || Do: " .$user->getUserName() . ' (' . $val->getSendDate() . ')</a><br>';
+                }
             }
         }
     }
