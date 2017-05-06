@@ -64,7 +64,7 @@ if (isset($_POST['commentContent']) && isset($_POST['tweetId']) && isset($_SESSI
                         require_once('modules/userTweets.php');
                         break;
                     case 'main':
-                        echo '<p id="tweetsHeader">Oto najnowsze tweety!</p><br>';
+                        echo '<div id="tweetsHeader">Oto najnowsze tweety!</div><br>';
                         require_once ('modules/tweetForm.php');
                         require_once ('modules/allTweets.php');
                         break;

@@ -20,19 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 ?>
 
 <form action="main.php?page=main" method="POST" role="form">
-    <div class="form-group tweetForm">
-        <legend>Nowy tweet:</legend>
-    </div>
+
     <div class="form-group">
         <div class="form-group">
-            <label for="">Tytuł</label>
-            <input type="text" class="form-control tweetForm" name="tweetTitle" id="tweetTitle" placeholder="Tytuł...">
+            <input type="text" class="form-control tweetForm" name="tweetTitle" id="tweetTitle" placeholder="Tytuł tweeta...">
         </div>
         <div class="form-group">
-            <label for="">Treść</label>
             <textarea class="form-control" maxlength="140" name="tweetBody" id="tweetBody" placeholder="Treść - maksymalnie 140 znaków..."></textarea>
         </div>
-        <button type="submit" name="submit" value="add" class="btn btn-success">Dodaj Tweeta</button>
+        <div class="text-right">
+            <button type="submit" name="submit" value="add" class="btn btn-success submitButton">Dodaj Tweeta</button>
+        </div>
     </div>
+
 </form>
 

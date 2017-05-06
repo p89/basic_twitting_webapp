@@ -85,7 +85,9 @@ echo '<h4>Adres e-mail: ' . $_SESSION['userMail'] . '</h4>';
             <label for="">Powtórz nowe hasło:</label>
             <input type="password" class="form-control tweetForm" maxlength="100" name="newPass2" id="newPass2" placeholder="Powtórz nowe hasło...">
         </div>
-        <button type="submit" name="submit" value="changePassword" class="btn btn-primary">Zmień hasło</button>
+        <div class="text-right">
+        <button type="submit" name="submit" value="changePassword" class="btn btn-primary submitButton">Zmień hasło</button>
+        </div>
     </div>
 </form>
 <br><br>
@@ -98,7 +100,9 @@ echo '<h4>Adres e-mail: ' . $_SESSION['userMail'] . '</h4>';
     <div class="form-group">
         <div class="form-group">
             <label for="">Chcesz usunąć konto?</label><br>
-            <button type="submit" name="submit" value="deleteUser" class="btn btn-danger">Usuń konto</button>
+            <div class="text-right">
+            <button type="submit" name="submit" value="deleteUser" class="btn btn-danger submitButton">Usuń konto</button>
+            </div>
         </div>
     </div>
 </form>

@@ -28,10 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'
     </div>
     <div class="form-group tweetForm">
         <div class="form-group">
-            <label for="">Treść wiadomości</label>
             <textarea class="form-control" rows="8" name="msgContent" id="msgContent"
                       placeholder="Treść wiadomości..."></textarea>
         </div>
-        <button type="submit" name="submit" value="add" class="btn btn-success">Wyślij wiadomość</button>
+        <div class="text-right">
+        <button type="submit" name="submit" value="add" class="btn btn-success submitButton2">Wyślij wiadomość</button>
+        </div>
     </div>
 </form>

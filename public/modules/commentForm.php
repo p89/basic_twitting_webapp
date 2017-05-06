@@ -17,7 +17,9 @@ if (!isset($_GET['page'])) {
                        <textarea class="form-control" rows="4" name="commentContent" id="commentContent" placeholder="Dodaj komentarz..."></textarea>
                    </div>
                    <input type="hidden" name="tweetId" value="<?php echo $val->getId(); ?>">
-                   <button type="submit" name="submit" value="add" class="btn btn-warning">Dodaj komentarz</button>
+                   <div class="text-right">
+                   <button type="submit" name="submit" value="add" class="btn btn-warning submitButton2">Dodaj komentarz</button>
+                   </div>
                </div>
            </form>
        </td>
