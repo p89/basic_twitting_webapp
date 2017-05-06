@@ -9,7 +9,7 @@ class msgWriter
             foreach ($objArray as $key => $val) {
 
                 $sender = User::showUserById($connection, $val->getSenderId());
-                echo '<table class="table-style-one">';
+                echo '<table class="table-style-three">';
                 echo '<th colspan="2">Treść wiadomości:</th>';
                 echo '<tr><td colspan="2">' . $val->getContent() . '</td></tr>';
                 echo '<tr><td width="320">Wysłana przez: <a href="main.php?page=userPage&userPage='. $sender->getUserName() . '">' . $sender->getUserName() . '</a></td><td align="right"> Data: '. $val->getSendDate() .'</td></tr></table><br><br>';

@@ -8,16 +8,17 @@ if (!isset($_GET['page'])) {
 
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && isset($_SESSION['userId'])
+if (isset($_SESSION['userId'])
     && isset($_POST['submit'])
     && $_POST['submit'] === 'deleteUser') {
+//var_dump($_SESSION['userId']);
 
+    var_dump($_SESSION['userId']);
     User::deleteUserById($connection, $_SESSION['userId']);
     SessionChecker::redirectWithMsg('Konto usunięte.');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPass']) && isset($_POST['newPass2']) && isset($_POST['submit']) && $_POST['submit'] === 'changePassword') {
+if (isset($_POST['newPass']) && isset($_POST['newPass2']) && isset($_POST['submit']) && $_POST['submit'] === 'changePassword') {
 
     if ($_POST['newPass'] !== $_POST['newPass2']) {
         echo 'Nowe hasła nie zgadzają się, wprowadź ponownie.';

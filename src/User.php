@@ -164,11 +164,11 @@ class User
         return null;
     }
 
-    static public function deleteUserById(PDO $connection, $id)
+    static public function deleteUserById(PDO $connection, INT $userId)
     {
-        $stmt = $connection->prepare('DELETE FROM user WHERE id=:id');
-        $result = $stmt->execute(['id'=> $id]);
-
+        $stmt = $connection->prepare('DELETE FROM user WHERE id = :userId');
+        $result = $stmt->execute([':userId'=> $userId]);
+        var_dump($result);
         if ($result) {
             echo "Konto usunięte.";
             $_SESSION['logged'] = false;
