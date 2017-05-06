@@ -18,10 +18,11 @@ if (isset($_GET['userPage'])) {
 
     if (isset($_GET['sendMsg']) && $_GET['sendMsg'] == true) {
         require_once('msgForm.php');
-    }
+    } else {
 
-    echo 'Tweety użytkownika:';
-    Tweet::writeTweetsByTweetId($connection, $user->getId());
+
+    Tweet::writeTweetsByUserId($connection, $user->getId());
+    }
 }
 ?>
 

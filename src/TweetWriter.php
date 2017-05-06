@@ -8,6 +8,7 @@ class TweetWriter
     public static function write($connection, $objArray) {
 
         if ($objArray) {
+            echo 'Tweety użytkownika:';
             foreach ($objArray as $key => $val) {
                 $user = Tweet::loadAuthorById($connection, $val->getAuthor());
 
@@ -22,7 +23,7 @@ class TweetWriter
                 echo '</table><br><br>';
             }
         } else {
-                echo "Nie napisałeś jeszcze żadnego tweeta.";
+                echo "Brak tweetów.";
         }
     }
 }
