@@ -65,6 +65,9 @@ SessionChecker::checkSession();
                     case 'userPage':
                         require_once ('modules/userPage.php');
                         break;
+                    case 'tweetPage':
+                        require_once ('modules/tweetPage.php');
+                        break;
                 }
             }
             ?>

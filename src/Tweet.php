@@ -89,7 +89,29 @@ class Tweet
             foreach ($finalResult as $row) {
 
                 $loadedTweet = new Tweet($row['title'], $row['tweetText'], $row['author'], $row['tweetDate']);
+                $loadedTweet->id = $row['id'];
 
+                $retRecords[] = $loadedTweet;
+            }
+            return $retRecords;
+        }
+        return null;
+    }
+
+    public static function loadTweetByTweetId (INT $tweetId, PDO $connection)
+    {
+        $readQuery = "SELECT * FROM tweet WHERE id = :tweetId";
+        $retRecords = [];
+
+        $readStmt = $connection->prepare($readQuery);
+        $readStmt->execute(['tweetId' => $tweetId]);
+        $finalResult = $readStmt->fetchAll();
+
+        if ($finalResult) {
+            foreach ($finalResult as $row) {
+
+                $loadedTweet = new Tweet($row['title'], $row['tweetText'], $row['author'], $row['tweetDate']);
+                $loadedTweet->id = $row['id'];
 
                 $retRecords[] = $loadedTweet;
             }
@@ -111,6 +133,7 @@ class Tweet
             foreach ($finalResult as $row) {
 
                 $loadedTweet = new Tweet($row['title'], $row['tweetText'], $row['author'], $row['tweetDate']);
+                $loadedTweet->id = $row['id'];
 
                 $retRecords[] = $loadedTweet;
             }
@@ -123,8 +146,12 @@ class Tweet
         TweetWriter::write($connection, self::loadAllTweets($connection));
     }
 
-    static public function writeTweetsById(PDO $connection, $id) {
+    static public function writeTweetsByUserId(PDO $connection, $id) {
         TweetWriter::write($connection, self::loadTweetByUserId($id, $connection));
+    }
+
+    static public function writeTweetsByTweetId(PDO $connection, $id) {
+        TweetWriter::write($connection, self::loadTweetByTweetId($id, $connection));
     }
 
     static public function loadAuthorById(PDO $connection, $id)

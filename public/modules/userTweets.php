@@ -7,7 +7,7 @@ if (!isset($_GET['page'])) {
 }
 
 if (isset($_SESSION['userId']) && $_SESSION['userId'] > 0) {
-    Tweet::writeTweetsById($connection, $_SESSION['userId']);
+    Tweet::writeTweetsByUserId($connection, $_SESSION['userId']);
 } else {
     SessionChecker::redirectWithMsg('Błędny identyfikator użytkownika.');
 }
