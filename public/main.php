@@ -5,6 +5,17 @@ require_once('../src/TweetWriter.php');
 require_once('../src/Message.php');
 
 SessionChecker::checkSession();
+
+if (isset($_POST['commentContent']) && isset($_POST['tweetId']) && isset($_SESSION['userId']))
+{
+    try {
+        $comment = new Comment($_SESSION['userId'], $_POST['tweetId'], $_POST['commentContent'], date('Y-m-d H:i:s'));
+        $comment->saveToDB($connection);
+    } catch (PDOException $e) {
+        echo 'Connection failed: ' . $e->getMessage();
+    }
+}
+
 ?>
 <html>
 <title>basic-tweet-app</title>
@@ -45,6 +56,7 @@ SessionChecker::checkSession();
         <div class="col-lg-6 col-lg-offset-3"><br><br><br><br>
 
             <?php
+
             if (isset($_SESSION['userName']) && isset($_SESSION['userId']) && isset($_GET['page'])) {
                 switch ($_GET['page']) {
 

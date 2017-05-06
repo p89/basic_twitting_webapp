@@ -20,12 +20,24 @@ if (isset($_SESSION['userId']) && $_SESSION['userId'] > 0) {
         require_once ('msgForm.php');
     }
     $receivedMsgs = Message::loadMsgByReceiverId($_SESSION['userId'], $connection);
-    echo 'Wiadomości otrzymane: <br>';
-    msgWriter::generateLinks($connection, $receivedMsgs, true);
+
+
+    if ($receivedMsgs) {
+        echo 'Wiadomości otrzymane: <br>';
+        msgWriter::generateLinks($connection, $receivedMsgs, true);
+    } else {
+        echo 'Nie otrzymałeś żadnych wiadomości.<br>';
+    }
 
     $sentMsgs = Message::loadMsgBySenderId($_SESSION['userId'], $connection);
-    echo '<br><br>Wiadomości wysłane: <br>';
-    msgWriter::generateLinks($connection, $sentMsgs, false);
+
+    if ($sentMsgs) {
+        echo '<br><br>Wiadomości wysłane: <br>';
+        msgWriter::generateLinks($connection, $sentMsgs, false);
+    } else {
+        echo '<br><br>Nie wysłałeś żadnych wiadomości.<br>';
+    }
+
 } else {
     SessionChecker::redirectWithMsg('Błędny identyfikator użytkownika.');
 }

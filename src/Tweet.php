@@ -120,7 +120,7 @@ class Tweet
         return null;
     }
 
-    static public function loadAllTweets(PDO $connection)
+    public static function loadAllTweets(PDO $connection)
     {
         $readQuery = "SELECT * FROM tweet ORDER BY tweetDate DESC";
         $retRecords = [];
@@ -142,18 +142,19 @@ class Tweet
         return null;
     }
 
-    static public function writeAllTweets(PDO $connection) {
+    public static function writeAllTweets(PDO $connection) {
         TweetWriter::write($connection, self::loadAllTweets($connection));
     }
 
-    static public function writeTweetsByUserId(PDO $connection, $id) {
+    public static function writeTweetsByUserId(PDO $connection, $id) {
         TweetWriter::write($connection, self::loadTweetByUserId($id, $connection));
     }
 
-    static public function writeTweetsByTweetId(PDO $connection, $id) {
+    public static function writeTweetsByTweetId(PDO $connection, $id) {
         TweetWriter::write($connection, self::loadTweetByTweetId($id, $connection));
     }
 
+    // to jest chyba niepotrzebne, bo można wykorzystać funkcję load user by id z klasy user
     static public function loadAuthorById(PDO $connection, $id)
     {
         $readQuery = "SELECT username FROM user INNER JOIN tweet on tweet.author = user.id WHERE user.id = :userId";

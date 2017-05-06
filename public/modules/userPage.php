@@ -1,5 +1,6 @@
 <?php
-require_once (__DIR__ . '../../bootstrap.php');
+require_once (__DIR__ . '/../bootstrap.php');
+require_once (__DIR__ . '/../../src/Tweet.php');
 SessionChecker::checkSession();
 
 if (!isset($_GET['page'])) {
@@ -20,7 +21,7 @@ if (isset($_GET['userPage'])) {
     }
 
     echo 'Tweety użytkownika:';
-    Tweet::writeTweetsById($connection, $user->getId());
+    Tweet::writeTweetsByTweetId($connection, $user->getId());
 }
 ?>
 

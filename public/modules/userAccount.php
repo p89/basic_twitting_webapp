@@ -75,15 +75,15 @@ echo '<h4>Adres e-mail: ' . $_SESSION['userMail'] . '</h4>';
     <div class="form-group">
         <div class="form-group">
             <label for="">Aktualne hasło:</label>
-            <input type="text" class="form-control tweetForm" name="oldPass" id="oldPass" placeholder="Podaj swoje aktualne hasło...">
+            <input type="password" class="form-control tweetForm" name="oldPass" id="oldPass" placeholder="Podaj swoje aktualne hasło...">
         </div>
         <div class="form-group">
             <label for="">Nowe hasło:</label>
-            <input class="form-control tweetForm" maxlength="100" name="newPass" id="newPass" placeholder="Podaj nowe hasło...">
+            <input type="password" class="form-control tweetForm" maxlength="100" name="newPass" id="newPass" placeholder="Podaj nowe hasło...">
         </div>
         <div class="form-group">
             <label for="">Powtórz nowe hasło:</label>
-            <input class="form-control tweetForm" maxlength="100" name="newPass2" id="newPass2" placeholder="Powtórz nowe hasło...">
+            <input type="password" class="form-control tweetForm" maxlength="100" name="newPass2" id="newPass2" placeholder="Powtórz nowe hasło...">
         </div>
         <button type="submit" name="submit" value="changePassword" class="btn btn-primary">Zmień hasło</button>
     </div>

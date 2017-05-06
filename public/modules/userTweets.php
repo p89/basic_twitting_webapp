@@ -1,5 +1,7 @@
 <?php
 require_once (__DIR__ . '../../bootstrap.php');
+require_once (__DIR__ . '/../../src/Tweet.php');
+
 SessionChecker::checkSession();
 
 if (!isset($_GET['page'])) {
@@ -7,7 +9,7 @@ if (!isset($_GET['page'])) {
 }
 
 if (isset($_SESSION['userId']) && $_SESSION['userId'] > 0) {
-    Tweet::writeTweetsByUserId($connection, $_SESSION['userId']);
+    $userTweets = Tweet::writeTweetsByUserId($connection, $_SESSION['userId']);
 } else {
     SessionChecker::redirectWithMsg('Błędny identyfikator użytkownika.');
 }
