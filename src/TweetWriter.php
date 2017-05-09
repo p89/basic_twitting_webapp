@@ -11,7 +11,6 @@ class TweetWriter
             foreach ($objArray as $key => $val) {
 
                 $user = User::showUserById($connection, $val->getAuthor());
-
                 echo '<table class="table-style-one" border="0">';
                 echo '<th colspan="2"><a href="main.php?page=tweetPage&tweetId=' . $val->getId() . '">'  . $val->getTitle() . '</a></th>';
                 echo '<tr><td colspan="2" class="maintd"><h5>' . $val->getText() . '</h5></td></tr>';

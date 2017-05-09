@@ -110,61 +110,47 @@ class User
         }
     }
 
-    static public function showUserById(PDO $connection, $id)
+    public static function loadUserObject ($result, $stmt) {
+
+        if ($result && $stmt->rowCount() > 0) {
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $loadedUser = new User();
+            $loadedUser->id = $row['id'];
+            $loadedUser->setUserName($row['username']);
+            $loadedUser->hashPass = $row['hash_password'];
+            $loadedUser->setEmail($row['email']);
+            $loadedUser->salt = $row['salt'];
+            return $loadedUser;
+        }
+        return null;
+    }
+
+    public static function showUserById(PDO $connection, $id)
     {
         $stmt = $connection->prepare('SELECT * FROM user WHERE id=:id');
         $result = $stmt->execute(['id'=> $id]);
 
-        if ($result && $stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $loadedUser = new User();
-            $loadedUser->id = $row['id'];
-            $loadedUser->setUserName($row['username']);
-            $loadedUser->hashPass = $row['hash_password'];
-            $loadedUser->setEmail($row['email']);
-            $loadedUser->salt = $row['salt'];
-            return $loadedUser;
-        }
-        return null;
+        return self::loadUserObject($result, $stmt);
     }
 
-    static public function showUserByEmail(PDO $connection, $email)
+    public static function showUserByEmail(PDO $connection, $email)
     {
         $stmt = $connection->prepare('SELECT * FROM user WHERE email=:email');
         $result = $stmt->execute(['email'=> $email]);
 
-        if ($result && $stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $loadedUser = new User();
-            $loadedUser->id = $row['id'];
-            $loadedUser->setUserName($row['username']);
-            $loadedUser->hashPass = $row['hash_password'];
-            $loadedUser->setEmail($row['email']);
-            $loadedUser->salt = $row['salt'];
-            return $loadedUser;
-        }
-        return null;
+        return self::loadUserObject($result, $stmt);
     }
 
-    static public function showUserByUserName(PDO $connection, $userName)
+    public static function showUserByUserName(PDO $connection, $userName)
     {
         $stmt = $connection->prepare('SELECT * FROM user WHERE username=:userName');
         $result = $stmt->execute(['userName'=> $userName]);
 
-        if ($result && $stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $loadedUser = new User();
-            $loadedUser->id = $row['id'];
-            $loadedUser->userName = $row['username'];
-            $loadedUser->hashPass = $row['hash_password'];
-            $loadedUser->email = $row['email'];
-            $loadedUser->salt = $row['salt'];
-            return $loadedUser;
-        }
-        return null;
+        return self::loadUserObject($result, $stmt);
     }
 
-    static public function deleteUserById(PDO $connection, INT $userId)
+    public static function deleteUserById(PDO $connection, INT $userId)
     {
         $stmt = $connection->prepare('DELETE FROM user WHERE id = :userId');
         $result = $stmt->execute([':userId'=> $userId]);
