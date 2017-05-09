@@ -153,16 +153,4 @@ class Tweet
     public static function writeTweetsByTweetId(PDO $connection, $id) {
         TweetWriter::write($connection, self::loadTweetByTweetId($id, $connection));
     }
-
-    // to jest chyba niepotrzebne, bo można wykorzystać funkcję load user by id z klasy user
-    static public function loadAuthorById(PDO $connection, $id)
-    {
-        $readQuery = "SELECT username FROM user INNER JOIN tweet on tweet.author = user.id WHERE user.id = :userId";
-
-        $readStmt = $connection->prepare($readQuery);
-        $readStmt->execute(['userId' => $id]);
-        $userName = $readStmt->fetch(PDO::FETCH_ASSOC);
-
-        return $userName['username'];
-    }
 }
